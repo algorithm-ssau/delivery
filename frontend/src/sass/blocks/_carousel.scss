@@ -1,0 +1,64 @@
+.carousel{
+    padding: 10px 0;
+    background-color: #d6d4d47e;
+    
+
+    &__inner {
+        position: relative;
+        width: calc(650px * 3 ); 
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+         
+        
+    }
+
+    &__inner img {
+        margin-right: 50px; 
+        border-radius: 30px;
+    }
+    
+  
+}
+
+.custom-dots {
+    position: absolute;
+    bottom: 0;
+    left: 50%; 
+    transform: translateX(-50%); 
+    list-style: none;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+.custom-dots li {
+    display: inline-block; 
+    margin: 0 5px; 
+}
+
+.custom-dots li button {
+    font-size: 0; 
+    background-color: transparent; 
+    border: none; 
+    cursor: pointer; 
+    transition: transform 0.3s; 
+   
+}
+
+.custom-dots li button:before {
+    content: "•"; 
+    font-size: 30px; 
+    color: $main-color; 
+    
+}
+
+.custom-dots li button:focus {
+    outline: none;
+}
+
+.custom-dots li button:hover {
+    transform: scale(1.5); 
+}
+
