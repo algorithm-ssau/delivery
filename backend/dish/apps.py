@@ -6,3 +6,4 @@ class DishConfig(AppConfig):
     name = 'dish'
 
 # Комментарий
+# Проверка
