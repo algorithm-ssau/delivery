@@ -1,6 +1,7 @@
 # delivery
 Figma2: https://www.figma.com/file/OTjDvI8KpfSSdIDbYYAUOX/Untitled?type=design&node-id=0%3A1&mode=design&t=g4sn96mQ5S874cXa-1  
-Тезисы: https://docs.google.com/document/d/1oFjdshfHIG-tol9OPB_2aOAkE3mCAFwJ/edit?usp=sharing&ouid=107700040615961732466&rtpof=true&sd=true
+Тезисы: https://docs.google.com/document/d/1oFjdshfHIG-tol9OPB_2aOAkE3mCAFwJ/edit?usp=sharing&ouid=107700040615961732466&rtpof=true&sd=true  
+К бд: https://docs.google.com/document/d/1ae2HsPKIN9_oujCYer7jWe9hYFefMeS8/edit?usp=sharing&ouid=107700040615961732466&rtpof=true&sd=true
 # О проекте (реклама)
 Приветствуем вас в репозитории нашего проекта! Мы работаем (время не согласуется) над созданием уникального сайта пиццерии, который объединит в себе новейшие технологии разработки сайта? (плохо) и изысканное оформление, вдохновленное знаменитой картиной художника Кацусика Хокусай "Большая волна в Канагаве".  
 Пицца - это блюдо, которое объединяет людей со всего мира, также как объединилась наша команда для работы над этим проектом. Мы видим создание этого сайта как великую цель, наполненную страстью к новым знаниям, программированию, искусству и, конечно же, любовью к стипендии и пицце.  
