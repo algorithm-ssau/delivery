@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class User(AbstractUser):
@@ -18,4 +19,22 @@ class User(AbstractUser):
         max_length=settings.LIMIT_CHAR_150,
         unique=True
     )
+    phone = PhoneNumberField(
+        verbose_name='Телефон',
+        blank=True
+    )
+    scores = models.PositiveSmallIntegerField(
+        verbose_name='Баллы',
+        blank=True,
+        default=settings.DEFAULT_SCORES
+    )
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = 'first_name'
 
+    class Meta:
+        ordering = ['first_name']
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
+
+    def __str__(self):
+        return str(self.first_name)
