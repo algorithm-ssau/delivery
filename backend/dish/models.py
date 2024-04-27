@@ -3,11 +3,6 @@ from django.conf import settings
 
 
 class Ingredient(models.Model):
-    id = models.IntegerField(
-        verbose_name="Индентификатор",
-        max_length=settings.LIMIT_INT_100,
-        primary_key=True
-    )
     name = models.CharField(
         verbose_name="Название",
         max_length=settings.LIMIT_CHAR_200
@@ -18,8 +13,8 @@ class Ingredient(models.Model):
     )
 
     class Meta:
-        verbose_name = 'Ингридиент'
-        verbose_name_plural = 'Ингридиенты'
+        verbose_name = 'Ингредиент'
+        verbose_name_plural = 'Ингредиенты'
         default_related_name = 'Ingredients'
         constraints = [
             models.UniqueConstraint(
@@ -32,27 +27,20 @@ class Ingredient(models.Model):
         return f'{self.name} {self.measurement_unit}'
 
 
-class Teg(models.Model):
-    TYPE = (
-        (SUSHI, "Суши"),
-        (PIZZA, "Пицца"),
-        (Burger, "Бургер")
+class Type(models.Model):
+    name = models.CharField(
+        verbose_name="Название",
+        max_length=settings.LIMIT_CHAR_100
     )
-    id = models.IntegerField(
-        verbose_name="Индентификатор",
-        max_length=settings.LIMIT_INT_100,
-        primary_key=True
-    )
-    type = models.CharField(
-        verbose_name="Тип",
-        max_length=settings.LIMIT_CHAR_10,
-        choices=TYPE
+    slug = models.SlugField(
+        unique=True,
+        max_length=settings.LIMIT_CHAR_200
     )
 
     class Meta:
-        verbose_name = 'Тег'
-        verbose_name_plural = 'Теги'
-        default_related_name = 'tags'
+        verbose_name = 'Тип'
+        verbose_name_plural = 'Типы'
+        default_related_name = 'types'
 
     def __str__(self):
-        return f'{self.type}'
+        return f'{self.name}'
