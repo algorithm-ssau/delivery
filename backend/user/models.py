@@ -1,3 +1,5 @@
+"""Содержит модель пользователя: User"""
+
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
@@ -5,6 +7,8 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 
 class User(AbstractUser):
+    """Модель пользователя"""
+
     email = models.EmailField(
         verbose_name='E-mail',
         max_length=settings.LIMIT_CHAR_254,
