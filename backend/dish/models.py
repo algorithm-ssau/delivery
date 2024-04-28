@@ -56,18 +56,14 @@ class Dish(models.Model):
         verbose_name="Описание",
         max_length=settings.LIMIT_CHAR_500
     )
-    cost = models.IntegerField(
-        verbose_name="Стоимость",
-        min_value=settings.MIN_INT_0,
-        step_size=settings.STEP_INT_50
+    cost = models.PositiveSmallIntegerField(
+        verbose_name="Стоимость"
     )
-    ccal = models.IntegerField(
-        verbose_name="Килокалории",
-        min_value=settings.MIN_INT_0
+    ccal = models.PositiveSmallIntegerField(
+        verbose_name="Килокалории"
     )
-    weight = models.IntegerField(
-        verbose_name="Вес",
-        min_value=settings.MIN_INT_0
+    weight = models.PositiveSmallIntegerField(
+        verbose_name="Вес"
     )
     image = models.ImageField(
         verbose_name="Фотография",
@@ -80,4 +76,4 @@ class Dish(models.Model):
         default_related_name = "Dishes"
 
     def __str__(self):
-        return f'{self.name}{self.description}{self.cost}{self.ccal}{self.weight}{self.image}'
+        return f'{self.name} - {self.cost}'
