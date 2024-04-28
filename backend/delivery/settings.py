@@ -127,8 +127,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-MIN_INT_0 = 0
-STEP_INT_50 = 50
+MIN_VALUE_FOR_AMOUNT = 1
 
 LIMIT_CHAR_254 = 254
 LIMIT_CHAR_100 = 100

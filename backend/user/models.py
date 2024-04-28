@@ -18,4 +18,3 @@ class User(AbstractUser):
         max_length=settings.LIMIT_CHAR_150,
         unique=True
     )
-
