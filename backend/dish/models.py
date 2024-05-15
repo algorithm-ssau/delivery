@@ -1,9 +1,9 @@
 """
 Содержит модели, описывающие блюда:
-Ingredient,
-Type,
-Dish,
-IngredientAmount
+- Ingredient;
+- Type;
+- Dish;
+- IngredientAmount.
 """
 
 from django.db import models
