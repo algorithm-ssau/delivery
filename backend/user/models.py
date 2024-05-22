@@ -33,7 +33,7 @@ class User(AbstractUser):
         default=settings.DEFAULT_SCORES
     )
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = 'first_name'
+    REQUIRED_FIELDS = ['first_name', ]
 
     class Meta:
         ordering = ['first_name']

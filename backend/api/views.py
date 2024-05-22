@@ -10,7 +10,7 @@
 
 from djoser.views import UserViewSet as DjoserUserViewSet
 
-from user.model import User
+from user.models import User
 
 from .serializers import UserReadSerializer
 
