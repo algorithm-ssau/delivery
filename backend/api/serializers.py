@@ -1,7 +1,7 @@
 """
 Содержит сериализаторы для преобразования данных:
-- Пользователя;
-- ...
+    - Пользователя;
+    - ...
 """
 
 from djoser.serializers import UserSerializer
@@ -13,7 +13,7 @@ class UserReadSerializer(UserSerializer):
     """Преобразование данных класса User на чтение"""
 
     email = serializers.ReadOnlyField()
-    first_name = serializers.ReadOnlyField()
+    username = serializers.ReadOnlyField()
     phone = serializers.ReadOnlyField()
 
     class Meta:
@@ -21,6 +21,6 @@ class UserReadSerializer(UserSerializer):
         fields = (
             'id',
             'email',
-            'first_name',
+            'username',
             'phone',
         )
