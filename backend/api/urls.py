@@ -15,10 +15,12 @@ from . import views
 
 router = DefaultRouter()
 
-router.register('users', views.UserViewSet, basename='users')
+router.register("users", views.UserViewSet, basename="users")
+router.register('ingredients', views.IngredientViewSet, basename='ingredients')
+router.register('types', views.TypeViewSet, basename='types')
 
 urlpatterns = [
-    path('', include(router.urls)),
-    path(r'auth/', include('djoser.urls')),
-    path(r'auth/', include('djoser.urls.authtoken')),
+    path("", include(router.urls)),
+    path(r"auth/", include("djoser.urls")),
+    path(r"auth/", include("djoser.urls.authtoken")),
 ]

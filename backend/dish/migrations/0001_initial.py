@@ -9,100 +9,172 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Dish',
+            name="Dish",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, verbose_name='Название')),
-                ('description', models.CharField(max_length=500, verbose_name='Описание')),
-                ('cost', models.PositiveSmallIntegerField(verbose_name='Стоимость')),
-                ('ccal', models.PositiveSmallIntegerField(verbose_name='Килокалории')),
-                ('weight', models.PositiveSmallIntegerField(verbose_name='Вес')),
-                ('image', models.ImageField(upload_to='dishes/', verbose_name='Фотография')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100, verbose_name="Название")),
+                (
+                    "description",
+                    models.CharField(max_length=500, verbose_name="Описание"),
+                ),
+                ("cost", models.PositiveSmallIntegerField(verbose_name="Стоимость")),
+                ("ccal", models.PositiveSmallIntegerField(verbose_name="Килокалории")),
+                ("weight", models.PositiveSmallIntegerField(verbose_name="Вес")),
+                (
+                    "image",
+                    models.ImageField(upload_to="dishes/", verbose_name="Фотография"),
+                ),
             ],
             options={
-                'verbose_name': 'Блюдо',
-                'verbose_name_plural': 'Блюда',
-                'default_related_name': 'Dishes',
+                "verbose_name": "Блюдо",
+                "verbose_name_plural": "Блюда",
+                "default_related_name": "Dishes",
             },
         ),
         migrations.CreateModel(
-            name='Ingredient',
+            name="Ingredient",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=200, verbose_name='Название')),
-                ('measurement_unit', models.CharField(max_length=200, verbose_name='Единица измерения')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=200, verbose_name="Название")),
+                (
+                    "measurement_unit",
+                    models.CharField(max_length=200, verbose_name="Единица измерения"),
+                ),
             ],
             options={
-                'verbose_name': 'Ингредиент',
-                'verbose_name_plural': 'Ингредиенты',
-                'default_related_name': 'Ingredients',
+                "verbose_name": "Ингредиент",
+                "verbose_name_plural": "Ингредиенты",
+                "default_related_name": "Ingredients",
             },
         ),
         migrations.CreateModel(
-            name='IngredientAmount',
+            name="IngredientAmount",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('amount', models.PositiveSmallIntegerField(validators=[django.core.validators.MinValueValidator(1)], verbose_name='Количество')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "amount",
+                    models.PositiveSmallIntegerField(
+                        validators=[django.core.validators.MinValueValidator(1)],
+                        verbose_name="Количество",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Количество ингредиентов',
-                'verbose_name_plural': 'Количество ингредиентов',
+                "verbose_name": "Количество ингредиентов",
+                "verbose_name_plural": "Количество ингредиентов",
             },
         ),
         migrations.CreateModel(
-            name='Order',
+            name="Order",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('count_dish', models.PositiveSmallIntegerField(verbose_name='Количество блюд')),
-                ('total_cost', models.PositiveSmallIntegerField(verbose_name='Общая стоимость')),
-                ('payment', models.BooleanField(verbose_name='Оплачена')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "count_dish",
+                    models.PositiveSmallIntegerField(verbose_name="Количество блюд"),
+                ),
+                (
+                    "total_cost",
+                    models.PositiveSmallIntegerField(verbose_name="Общая стоимость"),
+                ),
+                ("payment", models.BooleanField(verbose_name="Оплачена")),
             ],
             options={
-                'verbose_name': 'Заказ',
-                'verbose_name_plural': 'Заказы',
-                'default_related_name': 'Orders',
+                "verbose_name": "Заказ",
+                "verbose_name_plural": "Заказы",
+                "default_related_name": "Orders",
             },
         ),
         migrations.CreateModel(
-            name='Type',
+            name="Type",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, verbose_name='Название')),
-                ('slug', models.SlugField(max_length=200, unique=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100, verbose_name="Название")),
+                ("slug", models.SlugField(max_length=200, unique=True)),
             ],
             options={
-                'verbose_name': 'Тип',
-                'verbose_name_plural': 'Типы',
-                'default_related_name': 'Types',
+                "verbose_name": "Тип",
+                "verbose_name_plural": "Типы",
+                "default_related_name": "Types",
             },
         ),
         migrations.AddConstraint(
-            model_name='ingredient',
-            constraint=models.UniqueConstraint(fields=('name', 'measurement_unit'), name='unique_ingredient'),
+            model_name="ingredient",
+            constraint=models.UniqueConstraint(
+                fields=("name", "measurement_unit"), name="unique_ingredient"
+            ),
         ),
         migrations.AddField(
-            model_name='dish',
-            name='ingredients',
-            field=models.ManyToManyField(to='dish.ingredient', verbose_name='Ингредиенты'),
+            model_name="dish",
+            name="ingredients",
+            field=models.ManyToManyField(
+                to="dish.ingredient", verbose_name="Ингредиенты"
+            ),
         ),
         migrations.AddField(
-            model_name='ingredientamount',
-            name='ingredient',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='dish.ingredient', verbose_name='Ингридиент'),
+            model_name="ingredientamount",
+            name="ingredient",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="dish.ingredient",
+                verbose_name="Ингридиент",
+            ),
         ),
         migrations.AddField(
-            model_name='ingredientamount',
-            name='recipes',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='dish.dish', verbose_name='Название блюда'),
+            model_name="ingredientamount",
+            name="recipes",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="dish.dish",
+                verbose_name="Название блюда",
+            ),
         ),
         migrations.AddField(
-            model_name='order',
-            name='dishes',
-            field=models.ManyToManyField(to='dish.dish', verbose_name='Блюда'),
+            model_name="order",
+            name="dishes",
+            field=models.ManyToManyField(to="dish.dish", verbose_name="Блюда"),
         ),
     ]
