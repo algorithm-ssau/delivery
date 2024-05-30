@@ -10,7 +10,6 @@ class UserAdmin(admin.ModelAdmin):
     list_display = (
         'pk',
         'email',
-        'password',
         'username',
         'phone',
         'scores'
