@@ -4,10 +4,11 @@
     - ...
 """
 
-from dish.models import Dish, Ingredient, IngredientAmount, Type
 from djoser.serializers import UserSerializer
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
+
+from dish.models import Dish, Ingredient, IngredientAmount, Type
 from user.models import User
 
 
