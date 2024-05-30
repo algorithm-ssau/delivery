@@ -16,5 +16,5 @@ class UserAdmin(admin.ModelAdmin):
     )
     list_filter = ('username', 'email')
     search_fields = ('username',)
-    list_editable = ('username',)
+    list_editable = ('username', 'scores')
     ordering = ('-username',)

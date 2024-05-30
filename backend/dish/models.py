@@ -72,13 +72,13 @@ class Dish(models.Model):
         max_length=settings.LIMIT_CHAR_500
     )
     cost = models.PositiveSmallIntegerField(
-        verbose_name="Стоимость"
+        verbose_name="Стоимость (руб)"
     )
     ccal = models.PositiveSmallIntegerField(
         verbose_name="Килокалории"
     )
     weight = models.PositiveSmallIntegerField(
-        verbose_name="Вес"
+        verbose_name="Вес (г)"
     )
     image = models.ImageField(
         verbose_name="Фотография",
