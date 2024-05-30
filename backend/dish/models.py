@@ -40,7 +40,7 @@ class Ingredient(models.Model):
 
 
 class Type(models.Model):
-    """Модель типа бляда"""
+    """Модель типа блюда"""
 
     name = models.CharField(
         verbose_name="Название",
@@ -61,7 +61,7 @@ class Type(models.Model):
 
 
 class Dish(models.Model):
-    """Модель длюда"""
+    """Модель блюда"""
 
     name = models.CharField(
         verbose_name="Название",
