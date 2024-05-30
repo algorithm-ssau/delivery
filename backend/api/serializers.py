@@ -79,7 +79,7 @@ class DishWriteSerializer(serializers.ModelSerializer):
         many=True,
         source='ingredientamount_set'
     )
-    type = serializers.SlugField(
+    type = serializers.SlugRelatedField(
         queryset=Type.objects.all(),
         slug_field='slug',
     )
