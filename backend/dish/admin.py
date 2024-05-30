@@ -14,3 +14,4 @@ class IngredientAdmin(admin.ModelAdmin):
     list_filter = ('name',)
     search_fields = ('name',)
     list_editable = ('name', 'measurement_unit',)
+    ordering = ('-name',)
