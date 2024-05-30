@@ -1,9 +1,10 @@
 import csv
 
-from dish.models import Ingredient
+from dish.models import Ingredient, Type
 from django.core.management.base import BaseCommand
 
 PATH_CSV_INGREDIENTS = '../data/ingredients.csv'
+PATH_CSV_TYPES = '../data/types.csv'
 
 
 class Command(BaseCommand):
@@ -18,4 +19,12 @@ class Command(BaseCommand):
                     name=name,
                     measurement_unit=measurement_unit
                 )
-        self.stdout.write('Данные из списка ингредиентов')
+        with open(PATH_CSV_TYPES, 'r', encoding='utf-8') as file:
+            reader = csv.reader(file)
+            next(reader)
+            for name, slug in reader:
+                Type.objects.get_or_create(
+                    name=name,
+                    slug=slug
+                )
+        self.stdout.write('Ингридиенты и теги добавлены')
