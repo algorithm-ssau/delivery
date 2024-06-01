@@ -194,28 +194,98 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ['id', 'user', 'dishes', 'total_cost', 'payment']
-    @staticmethod
-    def order_dish_add(dishes, order):
-        for dish_data in dishes:
-            OrderDish.objects.create(
-                dish=Dish.objects.get(
-                    id=dish_data['dish']['id']
-                ),
-                order=order,
-                quantity=1)
+
+    # @staticmethod
+    # def order_dish_add(dishes, order):
+    #     for dish_data in dishes:
+    #         # OrderDish.objects.create(
+    #         #     dish=Dish.objects.get(
+    #         #         id=dish_data['dish']['id']
+    #         #     ),
+    #         #     order=order,
+    #         #     quantity=1)
+    #
+    #         quantity = 0
+    #
+    #         print(OrderDish.objects.filter(
+    #             order=order,
+    #             dish=Dish.objects.get(
+    #                 id=dish_data['dish']['id']
+    #             )
+    #         ).exists())
+    #         print(OrderDish.objects.all())
+    #         if OrderDish.objects.filter(
+    #             order=order,
+    #             dish=Dish.objects.get(
+    #                 id=dish_data['dish']['id']
+    #             )
+    #         ).exists():
+    #             print('12312')
+    #             order_dish = OrderDish.objects.get(
+    #                 order=order,
+    #                 dish=Dish.objects.get(
+    #                     id=dish_data['dish']['id']
+    #                 )
+    #             )
+    #             order_dish.quantity += 1
+    #             order_dish.save()
+    #         else:
+    #             print('qwerqrq')
+    #             OrderDish.objects.create(
+    #                 order=order,
+    #                 dish=Dish.objects.get(
+    #                     id=dish_data['dish']['id']
+    #                 )
+    #             )
+    #
+    # def create(self, validated_data):
+    #     dishes = validated_data.pop('orderdish_set')
+    #     order = Order.objects.create(**validated_data,
+    #                                  user=self.context['request'].user)
+    #     self.order_dish_add(dishes, order)
+    #     order.calculate_total_cost()
+    #     order.save()
+    #     return order
+    #
+    # def update(self, instance, validated_data):
+    #     OrderDish.objects.filter(order=instance).delete()
+    #     dishes = validated_data.pop('orderdish_set')
+    #     self.order_dish_add(dishes, instance)
+    #     instance.calculate_total_cost()
+    #     return super().update(instance, validated_data)
 
     def create(self, validated_data):
-        dishes = validated_data.pop('orderdish_set')
-        order = Order.objects.create(**validated_data,
-                                     user=self.context['request'].user)
-        self.order_dish_add(dishes, order)
+        order_dishes_data = validated_data.pop('orderdish_set')
+        order = Order.objects.create(**validated_data, user=self.context['request'].user)
+        for order_dish_data in order_dishes_data:
+            OrderDish.objects.create(order=order, dish=Dish.objects.get(id=order_dish_data['dish']['id']))
         order.calculate_total_cost()
         order.save()
         return order
 
     def update(self, instance, validated_data):
-        OrderDish.objects.filter(order=instance).delete()
-        dishes = validated_data.pop('orderdish_set')
-        self.order_dish_add(dishes, instance)
+        order_dishes_data = validated_data.pop('orderdish_set')
+        instance.user = validated_data.get('user', instance.user)
+        instance.payment = validated_data.get('payment', instance.payment)
+        instance.save()
+
+        for order_dish_data in order_dishes_data:
+            dish_id = order_dish_data['dish']['id']
+            dish_instance = Dish.objects.get(id=dish_id)
+            quantity = order_dish_data.get('quantity',
+                                           1)  # Default quantity to 1 if not provided
+
+            order_dish, created = OrderDish.objects.get_or_create(
+                order=instance,
+                dish=dish_instance,
+                defaults={'quantity': quantity}
+            )
+
+            if not created:
+                order_dish.quantity += quantity  # Increment the quantity
+                order_dish.save()
+
         instance.calculate_total_cost()
-        return super().update(instance, validated_data)
+        instance.save()
+        return instance
+
