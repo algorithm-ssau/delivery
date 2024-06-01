@@ -12,13 +12,13 @@ from django_filters.rest_framework import DjangoFilterBackend
 from djoser.views import UserViewSet as DjoserUserViewSet
 from rest_framework import filters, mixins, viewsets
 
-from dish.models import Dish, Ingredient, Type
+from dish.models import Dish, Ingredient, Type, Order
 from user.models import User
 
 from .filters import DishFilter, IngredientFilter
 from .serializers import (DishReadSerializer, DishWriteSerializer,
                           IngredientSerializer, TypeSerializer,
-                          UserReadSerializer)
+                          UserReadSerializer, OrderSerializer)
 
 
 class UserViewSet(DjoserUserViewSet):
@@ -67,3 +67,10 @@ class DishViewSet(viewsets.ModelViewSet):
         if self.request.method == 'GET':
             return DishReadSerializer
         return DishWriteSerializer
+
+
+class OrderViewSet(viewsets.ModelViewSet):
+    """View-класс реализующий операции модели Order"""
+
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer

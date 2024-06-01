@@ -19,6 +19,7 @@ router.register("users", views.UserViewSet, basename="users")
 router.register('ingredients', views.IngredientViewSet, basename='ingredients')
 router.register('types', views.TypeViewSet, basename='types')
 router.register('dishes', views.DishViewSet, basename='dishes')
+router.register('orders', views.OrderViewSet, basename='orders')
 
 urlpatterns = [
     path("", include(router.urls)),

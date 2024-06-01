@@ -92,6 +92,7 @@ class Dish(models.Model):
     )
     ingredients = models.ManyToManyField(  # Связь многим ко многим
         Ingredient,
+        through='IngredientAmount',
         verbose_name="Ингредиенты"
     )
 
@@ -105,9 +106,9 @@ class Dish(models.Model):
 
 
 class IngredientAmount(models.Model):
-    """Модель ингредиентов с количеством для каждого блюда"""
+    """Промежуточная модель для хранения количества ингредиентов"""
 
-    recipes = models.ForeignKey(
+    dish = models.ForeignKey(
         Dish,
         verbose_name="Название блюда",
         on_delete=models.CASCADE
@@ -133,15 +134,6 @@ class IngredientAmount(models.Model):
 class Order(models.Model):
     """Модель заказа"""
 
-    count_dish = models.PositiveSmallIntegerField(
-        verbose_name="Количество блюд"
-    )
-    total_cost = models.PositiveSmallIntegerField(
-        verbose_name="Общая стоимость"
-    )
-    payment = models.BooleanField(  # Если значение False - то заказ в Корзине, если значение True - то в истории заказов
-        verbose_name="Оплачена"
-    )
     user = models.ForeignKey(
         User,
         verbose_name="Пользователь",
@@ -149,7 +141,16 @@ class Order(models.Model):
     )
     dishes = models.ManyToManyField(
         Dish,
+        through='OrderDish',
         verbose_name="Блюда"
+    )
+    total_cost = models.PositiveSmallIntegerField(
+        verbose_name="Общая стоимость",
+        default=0
+    )
+    payment = models.BooleanField(
+        verbose_name="Оплачена",
+        default=False
     )
 
     class Meta:
@@ -158,4 +159,38 @@ class Order(models.Model):
         default_related_name = "Orders"
 
     def __str__(self):
-        return f"{self.count_dish} {self.total_cost}"
+        return f"Заказ {self.id} от {self.user.username}"
+
+    def calculate_total_cost(self):
+        """Метод для расчета общей стоимости заказа"""
+        total = 0
+        for order_dish in self.orderdish_set.all():
+            total += order_dish.dish.cost * order_dish.quantity
+        self.total_cost = total
+        self.save()
+
+
+class OrderDish(models.Model):
+    """Промежуточная модель для хранения количества блюд в заказе"""
+
+    order = models.ForeignKey(
+        Order,
+        verbose_name="Заказ",
+        on_delete=models.CASCADE
+    )
+    dish = models.ForeignKey(
+        Dish,
+        verbose_name="Блюдо",
+        on_delete=models.CASCADE
+    )
+    quantity = models.PositiveSmallIntegerField(
+        verbose_name="Количество",
+        default=1
+    )
+
+    class Meta:
+        verbose_name = "Блюдо в заказе"
+        verbose_name_plural = "Блюда в заказе"
+
+    def __str__(self):
+        return f"{self.dish.name} - {self.quantity} шт."
