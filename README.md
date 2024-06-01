@@ -6,21 +6,21 @@
 Наш сайт будет удобен для любого пользователя из-за своего понятного и простого интерфейса💙
 
 # Технологии
-Front: :art:
-* PHP
-* CSS3
-* HTML5
-* Sass
-* JavaScript
-* Bootstrap
-* jQuery
----
-Backend: :wrench:
-* Django и DR
-* Gunicorn
-* SQLite6
-* PostgreSQL
-* Poetry
+*была попытка настроить цвета в одну гамму, что-то пошло не так. Для каждой строки: img.shields.io/badge/php-092E20. 092E20-код цвета
+Front:   
+![](https://img.shields.io/badge/php-092E20?style=for-the-badge&logo=php&logoColor=white)
+![](https://img.shields.io/badge/css-1D4260?style=for-the-badge&logo=css3&logoColor=white)
+![](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![](https://img.shields.io/badge/Sass-D9D9D9?style=for-the-badge&logo=Sass&logoColor=white)
+![](https://shields.io/badge/JavaScript-F7DF1E?logo=JavaScript&logoColor=000&style=for-the-badge)
+![](https://img.shields.io/badge/Bootstrap-46789D?style=for-the-badge&logo=bootstrap&logoColor=white)
+![](https://img.shields.io/badge/jQuery-D28A00?style=for-the-badge&logo=jquery&logoColor=white)  
+Backend:  
+![](https://img.shields.io/badge/Django-65BBFB?style=for-the-badge&logo=django&logoColor=white)
+![](https://img.shields.io/badge/Postgre_SQL-46789D?logo=postgresql&logoColor=white&style=for-the-badge)
+![](https://img.shields.io/badge/poetry-D28A00?logo=poetry&logoColor=white&style=for-the-badge)
+![](https://img.shields.io/badge/Gunicorn-D9D9D9?style=for-the-badge&logo=Gunicorn&logoColor=white)
+![](https://img.shields.io/badge/SQLite-1D4260?style=for-the-badge&logo=sqlite&logoColor=white)
 # Как запустить
 Мы тоже не знаем :(
 # О разработчиках  
