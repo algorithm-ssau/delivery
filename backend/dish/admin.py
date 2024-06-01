@@ -33,9 +33,9 @@ class TagAdmin(admin.ModelAdmin):
 class IngredientAmountAdmin(admin.ModelAdmin):
     """Настройка IngredientAmount для панели Admin"""
 
-    list_display = ('pk', 'recipes', 'ingredient', 'amount')
-    list_filter = ('recipes',)
-    search_fields = ('recipes',)
+    list_display = ('pk', 'dish', 'ingredient', 'amount')
+    list_filter = ('dish',)
+    search_fields = ('dish',)
     ordering = ('pk',)
 
 
@@ -55,7 +55,7 @@ class DishAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     list_filter = ('name', 'type')
     inlines = [IngredientInline, ]
-    list_editable = ('name','description', 'cost', 'ccal', 'weight')
+    list_editable = ('name', 'description', 'cost', 'ccal', 'weight')
 
     def dish_ingredients(self, obj):
         ingredients = (
@@ -73,12 +73,3 @@ class DishAdmin(admin.ModelAdmin):
         return ingredient_list
 
     dish_ingredients.short_description = 'Ингредиенты'
-
-
-@admin.register(Order)
-class OrderAdmin(admin.ModelAdmin):
-    """Настройка Order для панели Admin"""
-
-    list_display = ('pk', 'count_dish', 'total_cost', 'payment', 'user')
-    search_fields = ('user',)
-    list_editable = ('total_cost', 'payment')
