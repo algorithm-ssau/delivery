@@ -22,7 +22,7 @@ Backend:
 ![](https://img.shields.io/badge/Gunicorn-D9D9D9?style=for-the-badge&logo=Gunicorn&logoColor=white)
 ![](https://img.shields.io/badge/SQLite-1D4260?style=for-the-badge&logo=sqlite&logoColor=white)
 # Как запустить
-Мы тоже не знаем :(
+
 # О разработчиках  
 * Сенгилейцев Никита ([NikAfraim](https://github.com/NikAfraim)) - Капитан команды, Backend :crown:
 * Саблин Сергей ([Figrac0](https://github.com/Figrac0)) - Front
