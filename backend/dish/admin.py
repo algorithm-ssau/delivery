@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.db.models import Sum
 
-from .models import (Ingredient, Type, IngredientAmount, Dish, Order)
+from .models import Dish, Ingredient, IngredientAmount, Order, Type
 
 admin.site.unregister(Group)
 

@@ -8,13 +8,16 @@
     - ...
 """
 
-from dish.models import Ingredient, Type
+from django_filters.rest_framework import DjangoFilterBackend
 from djoser.views import UserViewSet as DjoserUserViewSet
 from rest_framework import filters, mixins, viewsets
+
+from dish.models import Dish, Ingredient, Type
 from user.models import User
 
-from .filters import IngredientFilter
-from .serializers import (IngredientSerializer, TypeSerializer,
+from .filters import DishFilter, IngredientFilter
+from .serializers import (DishReadSerializer, DishWriteSerializer,
+                          IngredientSerializer, TypeSerializer,
                           UserReadSerializer)
 
 
@@ -51,5 +54,16 @@ class IngredientViewSet(ListRetrieveViewSet):
     filterset_class = IngredientFilter
 
 
-class DishViewSet:
-    pass
+class DishViewSet(viewsets.ModelViewSet):
+    """View-класс реализующий операции модели Dish"""
+
+    queryset = Dish.objects.all()
+    # permissions = [IsAuthorOrReadOnly]
+    filter_backends = (filters.SearchFilter, DjangoFilterBackend, )
+    search_fields = ('name',)
+    filterset_class = DishFilter
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return DishReadSerializer
+        return DishWriteSerializer
