@@ -60,7 +60,7 @@ class DishAdmin(admin.ModelAdmin):
     def dish_ingredients(self, obj):
         ingredients = (
             IngredientAmount.objects
-            .filter(recipes=obj)
+            .filter(dish=obj)
             .order_by('ingredient__name').values('ingredient')
             .annotate(amount=Sum('amount'))
             .values_list(
