@@ -20,7 +20,8 @@ from rest_framework.response import Response
 from dish.models import Dish, Ingredient, Type, Order
 from user.models import User
 
-from .permissions import CanModifyOrder, IsAdminOrOwnerAndPaymentTrue
+from .permissions import (CanModifyOrder, IsAdminOrOwnerAndPaymentTrue,
+                          IsAdminOrReadOnly)
 from .filters import DishFilter, IngredientFilter
 from .serializers import (DishReadSerializer, DishWriteSerializer,
                           IngredientSerializer, TypeSerializer,
@@ -64,7 +65,7 @@ class DishViewSet(viewsets.ModelViewSet):
     """View-класс реализующий операции модели Dish"""
 
     queryset = Dish.objects.all()
-    # permissions = [IsAuthorOrReadOnly]
+    permission_classes = [IsAdminOrReadOnly]
     filter_backends = (filters.SearchFilter, DjangoFilterBackend,)
     search_fields = ('name',)
     filterset_class = DishFilter
