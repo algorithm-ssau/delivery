@@ -9,7 +9,6 @@
 from django.conf import settings
 from django.core.validators import MinValueValidator
 from django.db import models
-
 from user.models import User
 
 
@@ -88,7 +87,9 @@ class Dish(models.Model):
     type = models.ForeignKey(  # Связь один ко многу
         Type,
         verbose_name="Тип",
-        on_delete=models.CASCADE,  # Если удалить экземлпяр Type, то удалятся все экземпляры с таким же значением в Dish
+        on_delete=models.CASCADE,  # Если удалить экземлпяр Type,
+                                   # то удалятся все экземпляры с
+                                   # таким же значением в Dish
     )
     ingredients = models.ManyToManyField(  # Связь многим ко многим
         Ingredient,

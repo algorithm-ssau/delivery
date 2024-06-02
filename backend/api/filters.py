@@ -1,6 +1,5 @@
-from django_filters.rest_framework import FilterSet, filters
-
 from dish.models import Dish, Ingredient, Type
+from django_filters.rest_framework import FilterSet, filters
 
 
 class IngredientFilter(FilterSet):
@@ -31,4 +30,3 @@ class DishFilter(FilterSet):
         fields = (
             'type',
         )
-

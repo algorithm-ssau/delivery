@@ -8,24 +8,23 @@
     - ...
 """
 
+from dish.models import Dish, Ingredient, Order, Type
 from django_filters.rest_framework import DjangoFilterBackend
-from djoser.views import UserViewSet as DjoserUserViewSet
-from rest_framework import filters, mixins, viewsets, status
 from djoser.permissions import CurrentUserOrAdmin
-from rest_framework.permissions import IsAdminUser
+from djoser.views import UserViewSet as DjoserUserViewSet
+from rest_framework import filters, mixins, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import NotFound
+from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
-
-from dish.models import Dish, Ingredient, Type, Order
 from user.models import User
 
+from .filters import DishFilter, IngredientFilter
 from .permissions import (CanModifyOrder, IsAdminOrOwnerAndPaymentTrue,
                           IsAdminOrReadOnly)
-from .filters import DishFilter, IngredientFilter
 from .serializers import (DishReadSerializer, DishWriteSerializer,
-                          IngredientSerializer, TypeSerializer,
-                          UserReadSerializer, OrderSerializer)
+                          IngredientSerializer, OrderSerializer,
+                          TypeSerializer, UserReadSerializer)
 
 
 class UserViewSet(DjoserUserViewSet):

@@ -1,8 +1,7 @@
 import csv
 
-from django.core.management.base import BaseCommand
-
 from dish.models import Ingredient, Type
+from django.core.management.base import BaseCommand
 
 PATH_CSV_INGREDIENTS = '../data/ingredients.csv'
 PATH_CSV_TYPES = '../data/types.csv'

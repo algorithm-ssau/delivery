@@ -4,14 +4,13 @@
     - ...
 """
 
+from dish.models import (Dish, Ingredient, IngredientAmount, Order, OrderDish,
+                         Type)
+from django.conf import settings
 from djoser.serializers import UserSerializer
 from drf_extra_fields.fields import Base64ImageField
-from rest_framework import serializers
 from phonenumber_field.serializerfields import PhoneNumberField
-from django.conf import settings
-
-from dish.models import (Dish, Ingredient, IngredientAmount, Type,
-                         Order, OrderDish)
+from rest_framework import serializers
 from user.models import User
 
 
@@ -289,4 +288,3 @@ class OrderSerializer(serializers.ModelSerializer):
         instance.calculate_total_cost()
         instance.save()
         return instance
-

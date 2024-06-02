@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.db.models import Sum
 
-from .models import Dish, Ingredient, IngredientAmount, Order, Type
+from .models import Dish, Ingredient, IngredientAmount, Type
 
 admin.site.unregister(Group)
 
@@ -51,11 +51,12 @@ class IngredientInline(admin.TabularInline):
 class DishAdmin(admin.ModelAdmin):
     """Настройка Dish для панели Admin"""
 
-    list_display = ('pk', 'name', 'description', 'cost', 'ccal', 'weight', 'type', 'dish_ingredients')
+    list_display = ('pk', 'name', 'description', 'cost',
+                    'ccal', 'weight', 'type', 'dish_ingredients')
     search_fields = ('name',)
     list_filter = ('name', 'type')
-    inlines = [IngredientInline, ]
-    list_editable = ('name','description', 'cost', 'ccal', 'weight')
+    inlines = [IngredientInline]
+    list_editable = ('name', 'description', 'cost', 'ccal', 'weight')
 
     def dish_ingredients(self, obj):
         ingredients = (
@@ -69,7 +70,8 @@ class DishAdmin(admin.ModelAdmin):
             )
         )
         ingredient_list = []
-        [ingredient_list.append('{} - {} {}.'.format(*ingredient)) for ingredient in ingredients]
+        [ingredient_list.append('{} - {} {}.'.format(*ingredient))
+         for ingredient in ingredients]
         return ingredient_list
 
     dish_ingredients.short_description = 'Ингредиенты'
