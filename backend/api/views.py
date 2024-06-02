@@ -10,11 +10,17 @@
 
 from django_filters.rest_framework import DjangoFilterBackend
 from djoser.views import UserViewSet as DjoserUserViewSet
-from rest_framework import filters, mixins, viewsets
+from rest_framework import filters, mixins, viewsets, status
+from djoser.permissions import CurrentUserOrAdmin
+from rest_framework.permissions import IsAdminUser
+from rest_framework.decorators import action
+from rest_framework.exceptions import NotFound
+from rest_framework.response import Response
 
 from dish.models import Dish, Ingredient, Type, Order
 from user.models import User
 
+from .permissions import CanModifyOrder, IsAdminOrOwnerAndPaymentTrue
 from .filters import DishFilter, IngredientFilter
 from .serializers import (DishReadSerializer, DishWriteSerializer,
                           IngredientSerializer, TypeSerializer,
@@ -59,7 +65,7 @@ class DishViewSet(viewsets.ModelViewSet):
 
     queryset = Dish.objects.all()
     # permissions = [IsAuthorOrReadOnly]
-    filter_backends = (filters.SearchFilter, DjangoFilterBackend, )
+    filter_backends = (filters.SearchFilter, DjangoFilterBackend,)
     search_fields = ('name',)
     filterset_class = DishFilter
 
@@ -74,3 +80,38 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+
+    def get_permissions(self):
+        if self.action == 'list':
+            self.permission_classes = [IsAdminUser]
+        elif self.action == 'retrieve':
+            self.permission_classes = [CurrentUserOrAdmin]
+        elif self.action in ['update', 'partial_update']:
+            self.permission_classes = [CanModifyOrder]
+        elif self.action == 'destroy':
+            self.permission_classes = [IsAdminOrOwnerAndPaymentTrue]
+        return super(OrderViewSet, self).get_permissions()
+
+    @action(detail=False,
+            methods=['post'],
+            permission_classes=(CurrentUserOrAdmin,))
+    def payment(self, request):
+        try:
+            order = Order.objects.get(user=request.user, payment=False)
+        except Order.DoesNotExist:
+            raise NotFound("Нету неоплаченных заказов")
+
+        order.payment = True
+        order.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @action(detail=False,
+            methods=['get'],
+            permission_classes=(CurrentUserOrAdmin,))
+    def history(self, request):
+        try:
+            orders = Order.objects.filter(user=request.user, payment=True)
+        except Order.DoesNotExist:
+            raise NotFound("Нету оплаченных заказов")
+        serializer = self.get_serializer(orders, many=True)
+        return Response(serializer.data)

@@ -7,6 +7,8 @@
 from djoser.serializers import UserSerializer
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
+from phonenumber_field.serializerfields import PhoneNumberField
+from django.conf import settings
 
 from dish.models import (Dish, Ingredient, IngredientAmount, Type,
                          Order, OrderDish)
@@ -18,7 +20,8 @@ class UserReadSerializer(UserSerializer):
 
     email = serializers.ReadOnlyField()
     username = serializers.ReadOnlyField()
-    phone = serializers.ReadOnlyField()
+    phone = PhoneNumberField()
+    scores = serializers.ReadOnlyField()
 
     class Meta:
         model = User
@@ -27,6 +30,7 @@ class UserReadSerializer(UserSerializer):
             "email",
             "username",
             "phone",
+            "scores"
         )
 
 
@@ -106,6 +110,41 @@ class DishWriteSerializer(serializers.ModelSerializer):
             'is_in_order',
         )
 
+    def validate(self, attrs):
+        if Dish.objects.filter(name=attrs['name']).exists():
+            raise serializers.ValidationError(
+                {'name': 'Блюдо с таким названием уже существует'}
+            )
+        ingredients = []
+        for ingredient in attrs['ingredientamount_set']:
+            if ingredient['ingredient'] not in ingredients:
+                ingredients.append(ingredient['ingredient'])
+            else:
+                raise serializers.ValidationError(
+                    {'ingredients': 'Ингредиент должен быть уникальным'}
+                )
+            if int(ingredient['amount']) < settings.MIN_VALUE_FOR_AMOUNT:
+                raise serializers.ValidationError(
+                    {'amount': 'Минимальный объем|вес 1'}
+                )
+        if not ingredients:
+            raise serializers.ValidationError(
+                {'ingredients': 'Должен быть выбран хотя бы один ингредиент'}
+            )
+        if int(attrs['cost']) < settings.MIN_VALUE_FOR_COST:
+            raise serializers.ValidationError(
+                {'cost': 'Минимальная стоимость 1'}
+            )
+        if int(attrs['ccal']) < settings.MIN_VALUE_FOR_CCAL:
+            raise serializers.ValidationError(
+                {'ccal': 'Минимальные калории 1'}
+            )
+        if int(attrs['weight']) < settings.MIN_VALUE_FOR_WEIGHT:
+            raise serializers.ValidationError(
+                {'weight': 'Минимальный вес 1'}
+            )
+        return attrs
+
     @staticmethod
     def dishes_ingredients_add(ingredients, dish):
         ingredients_amount = [
@@ -175,12 +214,13 @@ class OrderDishSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(source='dish.id')
     name = serializers.ReadOnlyField(source='dish.name')
     image = serializers.SerializerMethodField()
-    cost = serializers.IntegerField(read_only=True)
+    cost = serializers.IntegerField(source='dish.cost', read_only=True)
+    weight = serializers.IntegerField(source='dish.weight', read_only=True)
     quantity = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = OrderDish
-        fields = ['id', 'name', 'image', 'cost', 'quantity']
+        fields = ['id', 'name', 'image', 'cost', 'quantity', 'weight']
 
     def get_image(self, obj):
         return obj.dish.image.url if obj.dish.image else None
@@ -195,70 +235,32 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = ['id', 'user', 'dishes', 'total_cost', 'payment']
 
-    # @staticmethod
-    # def order_dish_add(dishes, order):
-    #     for dish_data in dishes:
-    #         # OrderDish.objects.create(
-    #         #     dish=Dish.objects.get(
-    #         #         id=dish_data['dish']['id']
-    #         #     ),
-    #         #     order=order,
-    #         #     quantity=1)
-    #
-    #         quantity = 0
-    #
-    #         print(OrderDish.objects.filter(
-    #             order=order,
-    #             dish=Dish.objects.get(
-    #                 id=dish_data['dish']['id']
-    #             )
-    #         ).exists())
-    #         print(OrderDish.objects.all())
-    #         if OrderDish.objects.filter(
-    #             order=order,
-    #             dish=Dish.objects.get(
-    #                 id=dish_data['dish']['id']
-    #             )
-    #         ).exists():
-    #             print('12312')
-    #             order_dish = OrderDish.objects.get(
-    #                 order=order,
-    #                 dish=Dish.objects.get(
-    #                     id=dish_data['dish']['id']
-    #                 )
-    #             )
-    #             order_dish.quantity += 1
-    #             order_dish.save()
-    #         else:
-    #             print('qwerqrq')
-    #             OrderDish.objects.create(
-    #                 order=order,
-    #                 dish=Dish.objects.get(
-    #                     id=dish_data['dish']['id']
-    #                 )
-    #             )
-    #
-    # def create(self, validated_data):
-    #     dishes = validated_data.pop('orderdish_set')
-    #     order = Order.objects.create(**validated_data,
-    #                                  user=self.context['request'].user)
-    #     self.order_dish_add(dishes, order)
-    #     order.calculate_total_cost()
-    #     order.save()
-    #     return order
-    #
-    # def update(self, instance, validated_data):
-    #     OrderDish.objects.filter(order=instance).delete()
-    #     dishes = validated_data.pop('orderdish_set')
-    #     self.order_dish_add(dishes, instance)
-    #     instance.calculate_total_cost()
-    #     return super().update(instance, validated_data)
+    def validate(self, attrs):
+        for attr in attrs['orderdish_set']:
+            if not Dish.objects.filter(
+                    id=attr['dish']['id']
+            ).exists():
+                raise serializers.ValidationError(
+                    {'dish': 'Такого блюда не существует'}
+                )
+        return attrs
 
     def create(self, validated_data):
+        if Order.objects.filter(
+                user=self.context['request'].user,
+                payment=False
+        ).exists():
+            raise serializers.ValidationError(
+                {'payment': 'У вас уже есть не оплаченный заказ'}
+            )
         order_dishes_data = validated_data.pop('orderdish_set')
-        order = Order.objects.create(**validated_data, user=self.context['request'].user)
+        order = Order.objects.create(**validated_data,
+                                     user=self.context['request'].user)
         for order_dish_data in order_dishes_data:
-            OrderDish.objects.create(order=order, dish=Dish.objects.get(id=order_dish_data['dish']['id']))
+            OrderDish.objects.create(order=order,
+                                     dish=Dish.objects.get(
+                                         id=order_dish_data['dish']['id']
+                                     ))
         order.calculate_total_cost()
         order.save()
         return order
@@ -272,8 +274,7 @@ class OrderSerializer(serializers.ModelSerializer):
         for order_dish_data in order_dishes_data:
             dish_id = order_dish_data['dish']['id']
             dish_instance = Dish.objects.get(id=dish_id)
-            quantity = order_dish_data.get('quantity',
-                                           1)  # Default quantity to 1 if not provided
+            quantity = order_dish_data.get('quantity', 1)
 
             order_dish, created = OrderDish.objects.get_or_create(
                 order=instance,
@@ -282,7 +283,7 @@ class OrderSerializer(serializers.ModelSerializer):
             )
 
             if not created:
-                order_dish.quantity += quantity  # Increment the quantity
+                order_dish.quantity += quantity
                 order_dish.save()
 
         instance.calculate_total_cost()
