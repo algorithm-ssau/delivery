@@ -5,12 +5,11 @@
 Именно поэтому дизайн разработан в стиле знаменитой картины "Большая волна в Канагаве".  
 Наш сайт будет удобен для любого пользователя из-за своего понятного и простого интерфейса💙
 
-# Технологии
-*была попытка настроить цвета в одну гамму, что-то пошло не так. Для каждой строки: img.shields.io/badge/php-092E20. 092E20-код цвета  
+# Технологии 
 Front:   
 ![](https://img.shields.io/badge/php-092E20?style=for-the-badge&logo=php&logoColor=white)
 ![](https://img.shields.io/badge/css-1D4260?style=for-the-badge&logo=css3&logoColor=white)
-![](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![](https://img.shields.io/badge/HTML5-65BBFB?style=for-the-badge&logo=html5&logoColor=white)
 ![](https://img.shields.io/badge/Sass-D9D9D9?style=for-the-badge&logo=Sass&logoColor=white)
 ![](https://shields.io/badge/JavaScript-F7DF1E?logo=JavaScript&logoColor=000&style=for-the-badge)
 ![](https://img.shields.io/badge/Bootstrap-46789D?style=for-the-badge&logo=bootstrap&logoColor=white)
