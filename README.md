@@ -23,7 +23,42 @@ Backend:
 ![](https://img.shields.io/badge/Gunicorn-D9D9D9?style=for-the-badge&logo=Gunicorn&logoColor=white)
 ![](https://img.shields.io/badge/SQLite-1D4260?style=for-the-badge&logo=sqlite&logoColor=white)
 # Как запустить
+1. Установка Node.js и npm
+Прежде чем начать, убедитесь, что у вас установлены Node.js и npm (Node Package Manager). Если они не установлены, скачайте и установите их с официального сайта Node.js.
 
+2. Инициализация проекта и установка Gulp
+Откройте терминал в VS Code и выполните следующие команды:
+npm init -y
+npm install gulp --save-dev
+
+3. Создание Gulpfile.js
+Создайте файл gulpfile.js в корневой директории проекта и добавьте туда ваш Gulp код.
+
+4. Добавление скриптов в package.json
+Откройте файл package.json и добавьте скрипты для запуска Gulp.
+
+5. Запуск задач Gulp через консоль
+Теперь вы можете запускать ваши Gulp задачи с помощью npm скриптов. Для этого откройте терминал в VS Code и выполните одну из следующих команд:
+
+а)Запустить все задачи по умолчанию:
+npm run build
+
+б)Запустить задачу компиляции стилей:
+npm run styles
+
+в)Запустить задачу минификации скриптов:
+npm run scripts
+
+Пример полного процесса:
+Откройте терминал в VS Code.
+
+Инициализируйте проект и установите Gulp:
+npm init -y
+npm install gulp --save-dev
+
+Создайте и настройте gulpfile.js с задачами.
+Добавьте нужные скрипты в package.json.
+Запустите задачи, используя команды npm.
 # О разработчиках  
 * Сенгилейцев Никита ([NikAfraim](https://github.com/NikAfraim)) - Капитан команды, Backend :crown:
 * Саблин Сергей ([Figrac0](https://github.com/Figrac0)) - Front
