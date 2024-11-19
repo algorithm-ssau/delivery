@@ -26,8 +26,9 @@ services:
 #    image: nikiafree/foodgram_backend:latest
     restart: always
     volumes:
-      - static_value:/app/static_value/
-      - media_value:/app/media/
+      - static_value:/backend/static_value/
+      - media_value:/backend/media/
+      - "../backend:/backend"
     depends_on:
       - database
     env_file:
@@ -50,7 +51,7 @@ services:
       context: ./
       dockerfile: nginx.Dockerfile
     volumes:
-      - static_value:/usr/share/nginx/html/staticfiles/
+      - static_value:/usr/share/nginx/html/static_value/
       - media_value:/usr/share/nginx/html/media/
     ports:
       - "80:80"
